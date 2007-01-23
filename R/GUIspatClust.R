@@ -8,7 +8,7 @@ function(){
 Map <- "no"  
 require(tcltk)
 
- putRcmdr <-
+putRcmdr <-
 function (x, value) 
 assign(x, value, envir = RcmdrEnv())
 
@@ -239,6 +239,8 @@ fontHeading <- tkfont.create(family="times",size=14,weight="bold",slant="italic"
 rb100 <- tkradiobutton(tt)
 rb101 <- tkradiobutton(tt)
 rb102 <- tkradiobutton(tt)
+rb103 <- tkradiobutton(tt)
+rb104 <- tkradiobutton(tt)
 
 ## fuer Standardisierung:
 rb105 <- tkradiobutton(tt)
@@ -253,6 +255,8 @@ rbValue11 <- tclVar("classical")
 tkconfigure(rb100,variable=rbValue10,value="nonetrans")
 tkconfigure(rb101,variable=rbValue10,value="log")
 tkconfigure(rb102,variable=rbValue10,value="bcOpt")
+tkconfigure(rb103,variable=rbValue10,value="logcentered")
+tkconfigure(rb104,variable=rbValue10,value="logratio")
 tkconfigure(rb105,variable=rbValue11,value="nonescale")
 tkconfigure(rb106,variable=rbValue11,value="classical")
 tkconfigure(rb107,variable=rbValue11,value="robust1")
@@ -263,9 +267,33 @@ tkgrid(tklabel(tt,text="Transformation", font=fontHeading), tklabel(tt,text=" ")
 tkgrid(tklabel(tt,text="None "),rb100, tklabel(tt,text="None "),rb105,sticky="w" )
 tkgrid(tklabel(tt,text="Log "),rb101, tklabel(tt,text="Classical "),rb106,sticky="w" )
 tkgrid(tklabel(tt,text="Box-Cox "),rb102, tklabel(tt,text="Robust (Median, MAD) "),rb107,sticky="w" )
+tkgrid(tklabel(tt,text="log-centring "),rb103, sticky="w" )
+tkgrid(tklabel(tt,text="----- "), sticky="w" )
+tkgrid(tklabel(tt,text="log-ratio "),rb104, sticky="w" )
+NameLR <- tclVar("LOI")
+entry.NameLR <-tkentry(tt,width="3",textvariable=NameLR)
+tkgrid(tklabel(tt,text="Select one variable for the log-ratio transformation."))
+tkgrid(entry.NameLR)
+OnOK <- function()
+{
+        sel <- tclvalue(NameLR)
+        putRcmdr(value=sel, x=c("sel"))
+        if(sel %in% colnames(subset(ActiveDataSet(), select=varSelection))){
+        msg <- paste("Element",sel,"has been chosen for the log-ratio transformation")
+        } else{
+          msg <- paste("Please select",sel,"with the variable selection button")
+        }
+        tkmessageBox(message=msg)
+}
+OK.but <-tkbutton(tt,text="   OK   ",command=OnOK)
+tkbind(entry.NameLR, "<Return>",OnOK)
+tkgrid(OK.but)
+
+
+
 #tkgrid(tklabel(tt,text=" "), tklabel(tt,text="Robust (downweighting) "),rb108,sticky="w" )
 
-
+ 
 ######################################################
 
 rb1 <- tkradiobutton(tt)
@@ -433,7 +461,7 @@ tkgrid(tklabel(tt,text="silwidths"),rb28, entry.Name, sticky="w")
 #tkgrid(tklabel(tt,text="silwidths"),rb28,sticky="w")
 tkgrid(tklabel(tt,text="diameter"),rb29,sticky="w")
 tkgrid(tklabel(tt,text="average distance"),rb30,sticky="w")
-OK.but <- tkbutton(tt,text="SHOW PLOTS",command=OnOK)
+OK.but <- tkbutton(tt,text="GET RESULTS",command=OnOK)
 tkbind(entry.Name, "<Return>",OnOK)
 tkgrid(tklabel(tt,text="median distance"),rb31,  OK.but, sticky="w")
 a1 <- tclvalue(Name)
@@ -465,7 +493,7 @@ OnOK <- function()
     clustPlot(coord=subset(ActiveDataSet(), select=coordNames), clust=clust1, k=as.numeric(NameVal), val=rbVal4)           #NameVal statt rbVal3
     print.clust(clust1)
 }
-OK.but <- tkbutton(tt,text="SHOW PLOTS",command=OnOK)
+OK.but <- tkbutton(tt,text="GET RESULTS",command=OnOK)
 tkbind(entry.Name, "<Return>",OnOK)
 #tkgrid(tklabel(tt, text="Copyright Templ 2006"), tklabel(tt, text="      "), OK.but, sticky="w")
 a1 <- tclvalue(Name)

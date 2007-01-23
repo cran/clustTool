@@ -15,7 +15,7 @@ function(x, ...){
  print(x$distMethod)
  cat("\n ------------------------------------------------------- ")
  cat("\n Detailed informations are saved in object clust1")
- cat("\n Try names(clust1) or look at the help pages of clust")
+ cat("\n Try names(clust1) or look at the help pages of clust \n")
  #cat("\n Cluster centers: \n ")
  #print(x$centers)
  #NextMethod("print")

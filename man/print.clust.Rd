@@ -6,7 +6,7 @@
   Print method for object \sQuote{clust}.
 }
 \usage{
-print.clust(x, ...)
+\method{print}{clust}(x, ...)
 }
 \arguments{
   \item{x}{ Object from function \sQuote{clust} }

@@ -42,6 +42,10 @@ function( x, scaling="classical", transformation="logarithm", powers="none" ){
     x2=x/xgeom
     x2
   }
+  logratio <- function(x){
+    w <- which(colnames(x) == sel)
+    log10(x[,-w])-rep(1,nrow(x)) %*% t(log10(x[,w]))
+  }
   get(scaling)( get(transformation)( x ) )
 }
 
