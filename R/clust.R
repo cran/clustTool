@@ -210,7 +210,7 @@ function( x=Cassini$x, k=3, method="kmeansHartigan",
      clust$cluster <- a$classification
      clust$center <- t(a$mu)
      clust$size <- table(a$classification)
-     clust$bic <- a$bic
+     #clust$bic <- a$bic
      clust$BIC <- a$bic
      clust$model <- a$model
    }
@@ -669,8 +669,8 @@ function( x=Cassini$x, k=3, method="kmeansHartigan",
      for(i in 1:k ){
        bics[i] <- min(EMclust(x[cl$class==i,], 1), na.rm=TRUE)
      }
-     m <- cbind(m,bics)
-     clust$bics <- bics
+     ##m <- cbind(m,bics)
+     clust$bic <- bics
    }
   clust$xdata <- x
   clust$method <- method
@@ -684,6 +684,7 @@ function( x=Cassini$x, k=3, method="kmeansHartigan",
   clust$average.distance <- clust.val$average.distance
   clust$median.distance <- clust.val$median.distance
   clust$average.toother <- clust.val$average.toother
+  #clust$bics <- clust$bics
   clust$vp <- vp
   class(clust) <- "clust"
   if( vp == TRUE ){ colnames(clust$center) <- colnames(x)}

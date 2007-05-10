@@ -75,14 +75,30 @@ function(coord, clust, k, val="silwidths", which.plot=c(1,2), Map="kola.backgrou
   vp1 <- viewport(x=0.5,y=0.5, w=1,height=1)
   pushViewport(vp1)
   if(clust$method != "Mclust"){
-    grid.text(x=0.5,y=0.98,
-      label=paste(clust$method, clust$distMethod, paste(names(clust$xdata), collapse=""), val ))
-      } else if( clust$method == "Mclust" ){
-    grid.text(x=0.5,y=0.98,
-      label=paste(clust$method, paste(names(clust$xdata), collapse=""), val ))
-     }      
-      
-  popViewport()
+    #grid.text(x=0.5,y=0.98,
+    #  label=paste(clust$method, clust$distMethod, paste(names(clust$xdata), collapse=""), val ))
+     grid.text(x=0.5,y=0.965,
+    label=clust$method, gp=gpar(cex=1.3))     
+     } else if( clust$method == "Mclust" ){
+    #grid.text(x=0.5,y=0.98,
+    #  label=paste(clust$method, paste(names(clust$xdata), collapse=""), val ))
+     grid.text(x=0.5,y=0.965,
+    label="Mclust", gp=gpar(cex=1.3))
+    }
+   popViewport()
+    pushViewport(vp1)
+  if(clust$method != "Mclust"){
+    #grid.text(x=0.5,y=0.98,
+    #  label=paste(clust$method, clust$distMethod, paste(names(clust$xdata), collapse=""), val ))
+     grid.text(x=0.5,y=0.965,
+    label=clust$method, gp=gpar(cex=1.3))     
+     } else if( clust$method == "Mclust" ){
+    #grid.text(x=0.5,y=0.98,
+    #  label=paste(clust$method, paste(names(clust$xdata), collapse=""), val ))
+     grid.text(x=0.5,y=0.965,
+    label="Mclust", gp=gpar(cex=1.3))
+    }
+   popViewport()
   }
   if( clust$vp == FALSE ) cat("\n --------- \n *** Note:\n elementplot is useless and not printed, \n because distances are used for clustering \n and not the data itself \n --------- \n")
   if( clust$vp == TRUE ){ yes <- TRUE } else { yes <- FALSE }

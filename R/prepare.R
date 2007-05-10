@@ -10,6 +10,9 @@ function( x, scaling="classical", transformation="logarithm", powers="none" ){
   ## transformation: - logarithm
   ##                 - boxcox (powers must be chosen)
   ##                 - bcOpt (with optimal powers)
+  ##                 - logcentered
+  ##                 - logratio
+  ##                 - iso
   ## powers ... vector of powers (default = "none")
   ## ---------------------------------------------------------------------------
   ### scaling:
@@ -44,7 +47,37 @@ function( x, scaling="classical", transformation="logarithm", powers="none" ){
   }
   logratio <- function(x){
     w <- which(colnames(x) == sel)
-    log10(x[,-w])-rep(1,nrow(x)) %*% t(log10(x[,w]))
+    log10(x[,-w])-log10(x[,w])%*%t(rep(1,2))
+  }
+  #iso <- function(x){
+  # PF, 05.04.2007
+  # isometric transformation
+  # INPUT:
+  # x ... compositional data
+  # OUTPUT
+  # x.iso ... 2 columns matrix 
+  # isometric transformation according to paper:
+  #  x.iso=matrix(NA,nrow=nrow(x),ncol=ncol(x)-1)
+  #   for (l in 1:nrow(x.iso)){
+  #     for (i in 1:ncol(x.iso)){
+  #      x.iso[l,i]=sqrt((i)/(i+1))*log(((prod(x[l,1:i]))^(1/i))/(x[l,i+1]))
+  #     }
+  #   }
+  #  return(x.iso)
+  #}
+  iso <- function(x){
+  # PF, 05.04.2007, fast version MT, 05.05.2007
+  # isometric transformation
+  # INPUT:
+  # x ... compositional data
+  # OUTPUT
+  # x.iso ... 2 columns matrix 
+  # isometric transformation according to paper:    
+    x.iso=matrix(NA,nrow=nrow(x),ncol=ncol(x)-1)
+    for (i in 1:ncol(x.iso)){
+      x.iso[,i]=sqrt((i)/(i+1))*log(((apply(as.matrix(x[,1:i]), 1, prod))^(1/i))/(x[,i+1]))
+    }
+  return(x.iso)
   }
   get(scaling)( get(transformation)( x ) )
 }

@@ -241,6 +241,7 @@ rb101 <- tkradiobutton(tt)
 rb102 <- tkradiobutton(tt)
 rb103 <- tkradiobutton(tt)
 rb104 <- tkradiobutton(tt)
+rb104b <- tkradiobutton(tt)
 
 ## fuer Standardisierung:
 rb105 <- tkradiobutton(tt)
@@ -257,6 +258,7 @@ tkconfigure(rb101,variable=rbValue10,value="log")
 tkconfigure(rb102,variable=rbValue10,value="bcOpt")
 tkconfigure(rb103,variable=rbValue10,value="logcentered")
 tkconfigure(rb104,variable=rbValue10,value="logratio")
+tkconfigure(rb104b,variable=rbValue10,value="iso")
 tkconfigure(rb105,variable=rbValue11,value="nonescale")
 tkconfigure(rb106,variable=rbValue11,value="classical")
 tkconfigure(rb107,variable=rbValue11,value="robust1")
@@ -270,7 +272,8 @@ tkgrid(tklabel(tt,text="Box-Cox "),rb102, tklabel(tt,text="Robust (Median, MAD) 
 tkgrid(tklabel(tt,text="log-centring "),rb103, sticky="w" )
 tkgrid(tklabel(tt,text="----- "), sticky="w" )
 tkgrid(tklabel(tt,text="log-ratio "),rb104, sticky="w" )
-NameLR <- tclVar("LOI")
+tkgrid(tklabel(tt,text="iso "),rb104b, sticky="w" )
+NameLR <- tclVar("Ti")
 entry.NameLR <-tkentry(tt,width="3",textvariable=NameLR)
 tkgrid(tklabel(tt,text="Select one variable for the log-ratio transformation."))
 tkgrid(entry.NameLR)
@@ -434,9 +437,19 @@ OnOK <- function()
     #tkdestroy(tt)
     X11()
     cat("\n --------- \n Please, wait a moment \n")
+    #clust1 <- clust(x=prepare(subset(ActiveDataSet(), select=varSelection), transformation=rbVal10, scaling=rbVal11), k=as.numeric(NameVal), method=rbVal1, distMethod=rbVal2)   #NameVal statt rbVal3
+        if(rbVal4 == "bic"){
+    clust1 <- clust(x=prepare(subset(ActiveDataSet(), select=varSelection), transformation=rbVal10, scaling=rbVal11), k=as.numeric(NameVal), method=rbVal1, distMethod=rbVal2, bic="bic")   #NameVal statt rbVal3
+  } else{
     clust1 <- clust(x=prepare(subset(ActiveDataSet(), select=varSelection), transformation=rbVal10, scaling=rbVal11), k=as.numeric(NameVal), method=rbVal1, distMethod=rbVal2)   #NameVal statt rbVal3
+  }
     clust1$scaling = rbVal11
     clust1$trans = rbVal10
+    if( rbVal10 == "iso" ){
+      clust1$xdata <- subset(ActiveDataSet(), select=varSelection)
+      clust1$center <- aggregate(scale(subset(ActiveDataSet(), select=varSelection)), by=list(as.factor(clust1$cluster)), FUN=mean)[,-1]
+      #colnames(clust1$center)  <- colnames(subset(ActiveDataSet(), select=varSelection))
+    }
     #save(clust1, file="clust1.RData")#, envir=.GlobalEnv)#, envir=.GlobalEnv)
     #load("clust1.RData")
     assign("clust1", clust1, envir=.GlobalEnv)
@@ -485,9 +498,18 @@ OnOK <- function()
     #tkdestroy(tt)
     X11()
     cat("\n --------- \n Please, wait a moment \n")
+    if(rbVal4 == "bic"){
+    clust1 <- clust(x=prepare(subset(ActiveDataSet(), select=varSelection), transformation=rbVal10, scaling=rbVal11), k=as.numeric(NameVal), method=rbVal1, distMethod=rbVal2, bic="bic")   #NameVal statt rbVal3
+  } else{
     clust1 <- clust(x=prepare(subset(ActiveDataSet(), select=varSelection), transformation=rbVal10, scaling=rbVal11), k=as.numeric(NameVal), method=rbVal1, distMethod=rbVal2)   #NameVal statt rbVal3
+  }
     clust1$scaling = rbVal11
     clust1$trans = rbVal10
+    if(rbVal10 == "iso"){
+      clust1$xdata <- subset(ActiveDataSet(), select=varSelection)
+      clust1$center <- aggregate(clust1$xdata, by=list(as.factor(clust1$cluster)), FUN=mean)      
+      colnames(clust1$xdata) <- colnames(clust1$center) <- colnames(subset(ActiveDataSet(), select=varSelection))
+    }
     save(clust1, file="clust1.RData")#, envir=.GlobalEnv)
     #load("clust1.RData")
     clustPlot(coord=subset(ActiveDataSet(), select=coordNames), clust=clust1, k=as.numeric(NameVal), val=rbVal4)           #NameVal statt rbVal3

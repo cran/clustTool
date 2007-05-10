@@ -15,7 +15,7 @@ prepare(x, scaling = "classical", transformation = "logarithm", powers = "none")
                   Possible values are: \dQuote{classical}, \dQuote{robust}, \dQuote{none} }
   \item{transformation}{ Transformation of the data. 
 
-                  Possible values are: \dQuote{logarithm}, \dQuote{boxcox}, \dQuote{bcOpt}, \dQuote{none} }
+                  Possible values are: \dQuote{logarithm}, \dQuote{boxcox}, \dQuote{bcOpt}, \dQuote{logratio},\dQuote{logcentered},\dQuote{iso},\dQuote{none} }
   \item{powers}{ Powers for Box-Cox transformation for each variable (if \dQuote{boxcox} is chosen) }
 }
 \details{

@@ -33,6 +33,8 @@ Maintainer: Matthias Templ <templ@statistik.tuwien.ac.at>
 \seealso{
 }
 \examples{
+## destroy the Rcmdr Commander window
+## tkdestroy(commanderWindow)
 library(mvoutlier)
 data(kola.background)
 data(humus)
