@@ -7,12 +7,41 @@ function(){
 
 Map <- "no"  
 require(tcltk)
+  
+clustToolEnv <- new.env()
 
 putRcmdr <-
-function (x, value) 
-assign(x, value, envir = RcmdrEnv())
+function (x, value){ 
+#assign(x, value, envir = RcmdrEnv())
+assign(x, value, envir = clustToolEnv())
+}  
 
+getRcmdr <- 
+function (x, mode = "any"){ 
+get(x, envir = clustToolEnv(), mode = mode, inherits = FALSE)
+}
 
+clustToolEnv <- function() {
+    pos <-  match("clustToolEnv", search())
+    if (is.na(pos)) { # Must create it
+        clustToolEnv <- list()
+        attach(clustToolEnv, pos = length(search()) - 1)
+        rm(clustToolEnv)
+        pos <- match("clustToolEnv", search())
+        }
+    return(pos.to.env(pos))
+    }
+  
+
+ActiveDataSet <-
+function (name) 
+{
+    if (missing(name)) 
+        getRcmdr(".activeDataSet")
+    else putRcmdr(".activeDataSet", name)
+}
+
+  
 fontHeading1 <- tkfont.create(family="times",size=12,weight="bold")
 tt <- tktoplevel()
 tkwm.title(tt,"spatClust GUI")
@@ -87,6 +116,7 @@ PressedVariablen <- function()
 {
    tt1 <- tktoplevel()
    fontVars <- tkfont.create(family="courier",size=12)
+   .activeDataSet <- ActiveDataSet()
  varName <- colnames(.activeDataSet) 
    cbValue <- cb <- list()
  for( i in 1:length(varName) ){
@@ -125,16 +155,16 @@ PressedVariablen <- function()
 }
 
 ###   Selection of Coordinates:   #######################################
-RcmdrEnv <- function() {
-    pos <-  match("RcmdrEnv", search())
-    if (is.na(pos)) { # Must create it
-        RcmdrEnv <- list()
-        attach(RcmdrEnv, pos = length(search()) - 1)
-        rm(RcmdrEnv)
-        pos <- match("RcmdrEnv", search())
-        }
-    return(pos.to.env(pos))
-    }
+#RcmdrEnv <- function() {
+#    pos <-  match("RcmdrEnv", search())
+#    if (is.na(pos)) { # Must create it
+#        RcmdrEnv <- list()
+#        attach(RcmdrEnv, pos = length(search()) - 1)
+#        rm(RcmdrEnv)
+#        pos <- match("RcmdrEnv", search())
+#        }
+#    return(pos.to.env(pos))
+#    }
 
 PressedCoord <- function()
 {
@@ -261,7 +291,7 @@ tkconfigure(rb104,variable=rbValue10,value="logratio")
 tkconfigure(rb104b,variable=rbValue10,value="iso")
 tkconfigure(rb105,variable=rbValue11,value="nonescale")
 tkconfigure(rb106,variable=rbValue11,value="classical")
-tkconfigure(rb107,variable=rbValue11,value="robust1")
+tkconfigure(rb107,variable=rbValue11,value="robust")
 #tkconfigure(rb108,variable=rbValue11,value="robust2")
 
 tkgrid(tklabel(tt,text=""))
@@ -269,13 +299,13 @@ tkgrid(tklabel(tt,text="Transformation", font=fontHeading), tklabel(tt,text=" ")
 tkgrid(tklabel(tt,text="None "),rb100, tklabel(tt,text="None "),rb105,sticky="w" )
 tkgrid(tklabel(tt,text="Log "),rb101, tklabel(tt,text="Classical "),rb106,sticky="w" )
 tkgrid(tklabel(tt,text="Box-Cox "),rb102, tklabel(tt,text="Robust (Median, MAD) "),rb107,sticky="w" )
-tkgrid(tklabel(tt,text="log-centring "),rb103, sticky="w" )
+tkgrid(tklabel(tt,text="centered logratio "),rb103, sticky="w" )
+tkgrid(tklabel(tt,text="isometric logratio "),rb104b, sticky="w" )
 tkgrid(tklabel(tt,text="----- "), sticky="w" )
-tkgrid(tklabel(tt,text="log-ratio "),rb104, sticky="w" )
-tkgrid(tklabel(tt,text="iso "),rb104b, sticky="w" )
+tkgrid(tklabel(tt,text="additive logratio "),rb104, sticky="w" )
 NameLR <- tclVar("Ti")
 entry.NameLR <-tkentry(tt,width="3",textvariable=NameLR)
-tkgrid(tklabel(tt,text="Select one variable for the log-ratio transformation."))
+tkgrid(tklabel(tt,text="Select one variable for the additive logratio transformation."))
 tkgrid(entry.NameLR)
 OnOK <- function()
 {
@@ -481,7 +511,7 @@ a1 <- tclvalue(Name)
 tkgrid(tklabel(tt,text="separation"),rb32,sticky="w")
 tkgrid(tklabel(tt,text="average.toother"),rb33,sticky="w")
 tkgrid(tklabel(tt,text="BIC"),rb34, sticky="w")
-tkgrid(tklabel(tt, text="      "), tklabel(tt, text="      "), tklabel(tt, text="Copyright Templ 2006") )
+tkgrid(tklabel(tt, text="      "), tklabel(tt, text="      "), tklabel(tt, text="Copyright Templ 2007") )
 
 OnOK <- function()
 {

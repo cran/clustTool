@@ -17,7 +17,7 @@ function( x, scaling="classical", transformation="logarithm", powers="none" ){
   ## ---------------------------------------------------------------------------
   ### scaling:
   classical <- function(x){ scale(x) }
-  robust <- function(x){ scale(x, center=apply(x, 2, median)) }
+  robust <- function(x){ t(t((t(t(x) - apply(x, 2, median))))/apply(x,2,mad)) }
   onestep <- onestep <- function(x){
     mMedian <- median(x)
     mMad <- mad(x)
