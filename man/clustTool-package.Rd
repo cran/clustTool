@@ -18,7 +18,7 @@ Package: \tab clustTool\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2006-08-09\cr
-License: \tab GPL 2.0 or newer\cr
+License: \tab GPL (>= 2)\cr
 }
 Try 
 

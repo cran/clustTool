@@ -15,7 +15,7 @@ clust(x = Cassini$x, k = 3, method = "kmeansHartigan", seed = set.seed(123), dis
   \item{method}{ Cluster algorithm }
   \item{seed}{ Seed (can be useful if results from clustering should be reproduced exactly) }
   \item{distMethod}{ Distance Measure }
-  \item{qtclustsize}{ Only important if method qtclust is chosen (see sQuote{qtclust} in package \pkg{flexclust}) }
+  \item{qtclustsize}{ Only important if method qtclust is chosen (see \sQuote{qtclust} in package \pkg{flexclust}) }
   \item{iter.max}{ Only important if method kmeans is chosen (see \sQuote{kmeans} in package \pkg{stats}  }
   \item{eps}{ Only important if method \sQuote{dbscan} is chosen }
   \item{vals}{ Validity measures for the resulting clusters would be calculated if this parameter is set to TRUE }
