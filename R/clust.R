@@ -206,9 +206,10 @@ function( x=Cassini$x, k=3, method="kmeansHartigan",
    }
    if( method == "Mclust" ){
      vp <- TRUE
-     a <- Mclust(x, k, k)
+     a <- Mclust(x, G=k)
      clust$cluster <- a$classification
-     clust$center <- t(a$mu)
+	 clust$center <- aggregate(x, list(a$classification), mean)[,-1]
+     #clust$center <- t(a$mu)
      clust$size <- table(a$classification)
      #clust$bic <- a$bic
      clust$BIC <- a$bic
@@ -664,7 +665,7 @@ function( x=Cassini$x, k=3, method="kmeansHartigan",
                     row.names = paste(method, "-", distMethod, sep=""))
    }
    if( length(bic) > 0 ){
-     cl <- Mclust(x,k,k)
+     cl <- Mclust(x,G=k)
      bics <- vector()
      for(i in 1:k ){
        bics[i] <- min(EMclust(x[cl$class==i,], 1), na.rm=TRUE)

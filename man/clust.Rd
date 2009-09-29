@@ -6,7 +6,9 @@
   Performs cluster analysis on data.
 }
 \usage{
-clust(x = Cassini$x, k = 3, method = "kmeansHartigan", seed = set.seed(123), distMethod = "euclidean", qtclustsize = 0.7, iter.max = 100, eps = 0.1, vals = TRUE, alt = NULL, coord = NULL, bic = NULL)
+clust(x = Cassini$x, k = 3, method = "kmeansHartigan", seed = set.seed(123), 
+      distMethod = "euclidean", qtclustsize = 0.7, iter.max = 100, eps = 0.1, 
+      vals = TRUE, alt = NULL, coord = NULL, bic = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,7 +41,9 @@ clust(x = Cassini$x, k = 3, method = "kmeansHartigan", seed = set.seed(123), dis
 
   distMethod: Possible values are: \dQuote{euclidean}, \dQuote{manhattan}, \dQuote{maximum}, \dQuote{canberra}, \dQuote{cosa}, \dQuote{rf} (dissimilarity measure based on random Forest proximity measure), \dQuote{gower}, \dQuote{bray}, \dQuote{kulczynski}, \dQuote{chord}, \dQuote{morisita}, \dQuote{horn}, \dQuote{mountford}, \dQuote{correlation} (dissimilarity measure based on correlations).
 
-  Distance measures which are supported by \pkg{spatClust}-GUI: \dQuote{euclidean}, \dQuote{manhattan},\dQuote{rf},\dQuote{bray},\dQuote{gower},\dQuote{kulczynski},\dQuote{morisita},\dQuote{correlation}.
+  Distance measures which are supported by \pkg{spatClust}-GUI: \dQuote{euclidean}, 
+  \dQuote{manhattan},\dQuote{rf},\dQuote{bray},\dQuote{gower},\dQuote{kulczynski},
+  \dQuote{morisita},\dQuote{correlation}.
 
   For details see the help files listed below.
 }
@@ -70,7 +74,7 @@ clust(x = Cassini$x, k = 3, method = "kmeansHartigan", seed = set.seed(123), dis
 
  Distance measures:
 
-\code{\link[stats]{dist}}, \code{\link[vegan]{vegdist}},  \code{\link[mvpart]{g.dist}}, \code{\link[randomForest]{randomForest}}, \dQuote{cosa}, \code{\link[stats]{cor}}
+\code{\link[stats]{dist}}, \code{\link[vegan]{vegdist}},  \code{\link[randomForest]{randomForest}}, \dQuote{cosa}, \code{\link[stats]{cor}}
 
  Cluster validity measures:
 

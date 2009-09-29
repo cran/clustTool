@@ -34,7 +34,8 @@ data(humus)
 x <- prepare(humus[,c("As", "Ca", "Co", "Mo", "Ni")])
 cl1 <- clust(x, k=9, method="clara", distMethod="manhattan")
 names(cl1)
-clustPlot(coord=humus[,2:3], clust=cl1, k=cl1$k, val="median.distance", Map="kola.background")
+clustPlot(coord=humus[,2:3], clust=cl1, k=cl1$k, val="median.distance", 
+          Map="kola.background")
 }
 \keyword{ dplot }
 \keyword{ hplot }

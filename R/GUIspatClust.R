@@ -243,15 +243,15 @@ tkfocus(tt)
 ###   Buttons im GUI   ######################################################
 
 Daten.but1 <- tkbutton(tt, text="Load R Data (optional)", command=PressedDaten)
-Daten.butActive1 <- tkbutton(tt, text="Set Active Data", command=PressedActive)
-Var.but1 <- tkbutton(tt, text="Select Variables", command=PressedVariablen)
+Daten.butActive1 <- tkbutton(tt, text="Set Active Data (needed)", command=PressedActive)
+Var.but1 <- tkbutton(tt, text="Select Variables (needed)", command=PressedVariablen)
 
 tkgrid(tklabel(tt, text=""))
 Daten.but <- tkgrid(Daten.but1,  tklabel(tt, text=""), Var.but1)
 
 #Daten.butActive1, tklabel(tt, text="Set active data set", font=fontHeading1))
 
-Daten.butCoord1 <- tkbutton(tt, text="Select Coordinates", command=PressedCoord)
+Daten.butCoord1 <- tkbutton(tt, text="Select Coordinates (needed)", command=PressedCoord)
 
 Coord.but <- tkgrid( Daten.butActive1,  tklabel(tt, text="", font=fontHeading1), Daten.butCoord1 )
 
@@ -305,7 +305,7 @@ tkgrid(tklabel(tt,text="----- "), sticky="w" )
 tkgrid(tklabel(tt,text="additive logratio "),rb104, sticky="w" )
 NameLR <- tclVar("Ti")
 entry.NameLR <-tkentry(tt,width="3",textvariable=NameLR)
-tkgrid(tklabel(tt,text="Select one variable for the additive logratio transformation."))
+tkgrid(tklabel(tt,text="Select one variable to act as ratioing variable."))
 tkgrid(entry.NameLR)
 OnOK <- function()
 {
