@@ -10,7 +10,7 @@
 }
 \arguments{
   \item{x}{ Object from function \sQuote{clust} }
- \item{\dots}{  }
+ \item{\dots}{ Additional arguments passed through }
 }
 \author{ Matthias Templ }
 \seealso{ \code{\link{clust} }}
